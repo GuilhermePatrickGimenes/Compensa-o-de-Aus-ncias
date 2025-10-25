@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Agenda de Provas e Trabalhos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <h1>Agenda de Provas e Trabalhos</h1>
+
+    <form id="form">
+      <input id="titulo" placeholder="Título (ex: Prova de Matemática)" required />
+      <input id="data" type="date" required />
+      <select id="tipo">
+        <option value="prova">Prova</option>
+        <option value="trabalho">Trabalho</option>
+      </select>
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <div id="filtros">
+      <select id="filtroStatus">
+        <option value="">Todos</option>
+        <option value="pendente">Pendentes</option>
+        <option value="concluído">Concluídos</option>
+      </select>
+      <select id="filtroTipo">
+        <option value="">Todos os tipos</option>
+        <option value="prova">Provas</option>
+        <option value="trabalho">Trabalhos</option>
+      </select>
+      <input id="busca" placeholder="Buscar por título..." />
+    </div>
+
+    <ul id="lista"></ul>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
