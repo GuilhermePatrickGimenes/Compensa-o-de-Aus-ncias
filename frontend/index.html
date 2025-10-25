@@ -1,42 +1,41 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Agenda de Provas e Trabalhos</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas Tarefas</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <main>
-    <h1>Agenda de Provas e Trabalhos</h1>
-
-    <form id="form">
-      <input id="titulo" placeholder="Título (ex: Prova de Matemática)" required />
-      <input id="data" type="date" required />
+  <div class="container">
+    <div class="header">
+      <h1><i class="fa-solid fa-clipboard-check"></i> Minhas Tarefas</h1>
+      <button id="themeBtn" title="Alternar tema"><i class="fa-solid fa-sun"></i></button>
+    </div>
+    
+    <div class="form">
+      <input type="text" id="titulo" placeholder="Título da tarefa">
+      <input type="date" id="data">
       <select id="tipo">
-        <option value="prova">Prova</option>
-        <option value="trabalho">Trabalho</option>
+        <option value="">Tipo</option>
+        <option value="Prova">Prova</option>
+        <option value="Trabalho">Trabalho</option>
+        <option value="Atividade">Atividade</option>
       </select>
-      <button type="submit">Adicionar</button>
-    </form>
-
-    <div id="filtros">
-      <select id="filtroStatus">
-        <option value="">Todos</option>
-        <option value="pendente">Pendentes</option>
-        <option value="concluído">Concluídos</option>
-      </select>
-      <select id="filtroTipo">
-        <option value="">Todos os tipos</option>
-        <option value="prova">Provas</option>
-        <option value="trabalho">Trabalhos</option>
-      </select>
-      <input id="busca" placeholder="Buscar por título..." />
+      <button id="addBtn"><i class="fa fa-plus"></i> Adicionar</button>
     </div>
 
-    <ul id="lista"></ul>
-  </main>
+    <ul id="listaTarefas"></ul>
+  </div>
 
   <script src="app.js"></script>
 </body>
 </html>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<button><i class="fa fa-plus"></i> Adicionar tarefa</button>
+

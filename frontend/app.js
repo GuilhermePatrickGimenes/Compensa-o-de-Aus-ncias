@@ -1,110 +1,86 @@
-const API = 'https://compensa-backend.onrender.com/tarefas';
+const API = 'http://localhost:3000/tarefas';
 
-const form = document.getElementById('form');
-const lista = document.getElementById('lista');
-const filtroStatus = document.getElementById('filtroStatus');
-const filtroTipo = document.getElementById('filtroTipo');
-const busca = document.getElementById('busca');
+const lista = document.getElementById('listaTarefas');
+const addBtn = document.getElementById('addBtn');
+const themeBtn = document.getElementById('themeBtn');
 
-async function getTarefas() {
+async function carregarTarefas() {
+  lista.innerHTML = '<p class="empty">Carregando...</p>';
   const res = await fetch(API);
-  return res.json();
-}
+  const tarefas = await res.json();
 
-function aplicaFiltros(dados) {
-  let r = [...dados];
-  if (filtroStatus.value) r = r.filter(t => (t.status || '').toLowerCase() === filtroStatus.value);
-  if (filtroTipo.value) r = r.filter(t => (t.tipo || '').toLowerCase() === filtroTipo.value);
-  if (busca.value.trim()) {
-    const q = busca.value.toLowerCase();
-    r = r.filter(t => (t.titulo || '').toLowerCase().includes(q));
-  }
-  // Ordena por data (asc) e depois por status (pendentes primeiro)
-  r.sort((a,b) => {
-    const sa = (a.status||'') === 'pendente' ? 0 : 1;
-    const sb = (b.status||'') === 'pendente' ? 0 : 1;
-    if (sa !== sb) return sa - sb;
-    return String(a.data||'').localeCompare(String(b.data||''));
-  });
-  return r;
-}
-
-function render(dados) {
-  lista.innerHTML = '';
-  if (!dados.length) {
-    const li = document.createElement('li');
-    li.textContent = 'Nenhuma tarefa encontrada.';
-    lista.appendChild(li);
+  if (tarefas.length === 0) {
+    lista.innerHTML = '<p class="empty">Nenhuma tarefa cadastrada</p>';
     return;
   }
 
-  dados.forEach(t => {
+  lista.innerHTML = '';
+  tarefas.forEach(t => {
     const li = document.createElement('li');
-
-    const info = document.createElement('div');
-    info.className = 'item-info';
-    const titulo = document.createElement('span');
-    titulo.className = 'titulo';
-    titulo.textContent = t.titulo;
-    const detalhes = document.createElement('small');
-    detalhes.textContent = `${t.data || 'sem data'} — ${t.tipo || 'sem tipo'} — [${t.status || 'pendente'}]`;
-    info.appendChild(titulo);
-    info.appendChild(detalhes);
-
-    const acoes = document.createElement('div');
-    acoes.className = 'acoes';
-
-    const btnConcluir = document.createElement('button');
-    btnConcluir.textContent = 'Concluir';
-    btnConcluir.onclick = async () => {
-      await fetch(`${API}/${t.id}/concluir`, { method: 'PUT' });
-      carregar();
-    };
-
-    const btnApagar = document.createElement('button');
-    btnApagar.textContent = 'Apagar';
-    btnApagar.onclick = async () => {
-      await fetch(`${API}/${t.id}`, { method: 'DELETE' });
-      carregar();
-    };
-
-    acoes.appendChild(btnConcluir);
-    acoes.appendChild(btnApagar);
-
-    li.appendChild(info);
-    li.appendChild(acoes);
+    li.innerHTML = `
+      <span>
+        <strong>${t.titulo}</strong> <br>
+        ${t.data ? t.data.split('-').reverse().join('/') : 'Sem data'} - ${t.tipo} 
+        ${t.status === 'concluído' ? '✅' : ''}
+      </span>
+      ${
+        t.status !== 'concluído'
+          ? `<button onclick="concluirTarefa(${t.id})" title="Concluir"><i class="fa-solid fa-check"></i></button>`
+          : ''
+      }
+      <button onclick="excluirTarefa(${t.id})" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+    `;
     lista.appendChild(li);
   });
 }
 
-async function carregar() {
-  try {
-    const dados = await getTarefas();
-    render(aplicaFiltros(dados));
-  } catch (e) {
-    console.error(e);
-    lista.innerHTML = '<li>Erro ao carregar. Confirme se o servidor está em http://localhost:3000</li>';
-  }
-}
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+addBtn.onclick = async () => {
   const titulo = document.getElementById('titulo').value.trim();
   const data = document.getElementById('data').value;
   const tipo = document.getElementById('tipo').value;
-  if (!titulo) return;
+
+  if (!titulo || !data || !tipo) {
+    alert('Preencha todos os campos!');
+    return;
+  }
 
   await fetch(API, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ titulo, data, tipo })
   });
 
-  form.reset();
-  carregar();
-});
+  document.getElementById('titulo').value = '';
+  document.getElementById('data').value = '';
+  document.getElementById('tipo').value = '';
+  carregarTarefas();
+};
 
-[filtroStatus, filtroTipo, busca].forEach(el => el.addEventListener('input', carregar));
+async function concluirTarefa(id) {
+  await fetch(`${API}/${id}/concluir`, { method: 'PUT' });
+  carregarTarefas();
+}
 
-// inicial
-carregar();
+async function excluirTarefa(id) {
+  if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+    await fetch(`${API}/${id}`, { method: 'DELETE' });
+    carregarTarefas();
+  }
+}
+
+// 🌗 Alternar tema
+themeBtn.onclick = () => {
+  document.body.classList.toggle('light');
+  const icone = themeBtn.querySelector('i');
+  icone.classList.toggle('fa-sun');
+  icone.classList.toggle('fa-moon');
+  localStorage.setItem('tema', document.body.classList.contains('light') ? 'claro' : 'escuro');
+};
+
+// Mantém o tema da última vez
+if (localStorage.getItem('tema') === 'claro') {
+  document.body.classList.add('light');
+  themeBtn.querySelector('i').classList.replace('fa-sun', 'fa-moon');
+}
+
+carregarTarefas();
