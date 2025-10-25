@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000/tarefas';
+const API = 'https://compensa-backend.onrender.com/tarefas';
 
 const form = document.getElementById('form');
 const lista = document.getElementById('lista');
