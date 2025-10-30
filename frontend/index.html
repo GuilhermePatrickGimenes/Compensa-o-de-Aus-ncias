@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minhas Tarefas</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Gerenciador de Provas e Trabalhos</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1><i class="fa-solid fa-clipboard-check"></i> Minhas Tarefas</h1>
-      <button id="themeBtn" title="Alternar tema"><i class="fa-solid fa-sun"></i></button>
-    </div>
-    
-    <div class="form">
-      <input type="text" id="titulo" placeholder="Título da tarefa">
-      <input type="date" id="data">
+  <header>
+    <h1>📚 Compensação de Ausências</h1>
+    <p>Organize suas provas e trabalhos de forma simples e moderna</p>
+  </header>
+
+  <main class="container">
+    <section class="form-section">
+      <h2>Adicionar Tarefa</h2>
+      <input id="titulo" type="text" placeholder="Título da tarefa">
+      <input id="data" type="date">
       <select id="tipo">
-        <option value="">Tipo</option>
+        <option value="">Selecione o tipo</option>
         <option value="Prova">Prova</option>
         <option value="Trabalho">Trabalho</option>
-        <option value="Atividade">Atividade</option>
+        <option value="Estudo">Estudo</option>
       </select>
-      <button id="addBtn"><i class="fa fa-plus"></i> Adicionar</button>
-    </div>
+      <button id="adicionar">Adicionar</button>
+    </section>
 
-    <ul id="listaTarefas"></ul>
-  </div>
+    <section class="tarefas-section">
+      <h2>Tarefas</h2>
+      <div id="tarefas"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Desenvolvido por <strong>Guilherme Patrick</strong> 💻</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>
 </html>
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<button><i class="fa fa-plus"></i> Adicionar tarefa</button>
-
