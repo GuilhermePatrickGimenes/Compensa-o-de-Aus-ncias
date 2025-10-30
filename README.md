@@ -40,7 +40,7 @@ A comunicação entre o front e o back é feita utilizando **Fetch API**, permit
 🚀 **Implantação**
 
  **Front-end (Netlify)**
-🔗 [Acessar site](https://tiny-taiyaki-9dacf9.netlify.app)
+🔗 [Acessar site](https://lembretedetarefas.netlify.app/)
 
  ⚙️ **Back-end (Render)**
 🔗 [API Base](https://compensa-o-de-aus-ncias.onrender.com/tarefas)
